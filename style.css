@@ -1,0 +1,124 @@
+/* style.css */
+
+/* --- GLOBAL RESETS & THEME --- */
+
+/* 1. Force Light Background */
+.stApp {
+    background-color: #FFFFFF !important;
+}
+
+/* 2. THE NUCLEAR OPTION: Force ALL text to #29000e */
+* {
+    color: #29000e !important;
+    --text-color: #29000e !important;
+    --body-text-color: #29000e !important;
+    font-family: 'Helvetica', sans-serif;
+}
+
+/* 3. Specific Overrides */
+p, h1, h2, h3, h4, h5, h6, span, div, label, li, a, td, th {
+    color: #29000e !important;
+}
+
+/* 4. Streamlit Widget Specifics */
+.stRadio label, .stCheckbox label, .stSlider label {
+    color: #29000e !important;
+}
+.stSelectbox div[data-baseweb="select"] > div {
+    color: #29000e !important;
+}
+
+/* 5. Header Styling */
+header[data-testid="stHeader"] {
+    background-color: #FFC0CB !important;
+}
+
+/* 6. Buttons */
+button {
+    color: #29000e !important;
+    border-color: #FF69B4 !important;
+}
+
+/* --- CUSTOM COMPONENTS --- */
+
+.pink-header {
+    background-color: #FFC0CB;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 5px solid #FF69B4;
+}
+
+.pink-header h1 {
+    margin: 0;
+    font-size: 3em;
+}
+
+.pink-header p {
+    font-size: 1.2em;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.product-card {
+    background-color: #FFF0F5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 5px solid #D63384;
+    color: #29000e;
+}
+
+.product-card h3 {
+    margin: 0;
+    color: #29000e;
+}
+
+.product-card-stats {
+    display: flex;
+    justify-content: space-between;
+    color: #29000e;
+    margin-top: 5px;
+}
+
+.product-card-scores {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    color: #29000e;
+    font-weight: bold;
+}
+
+/* --- FIX FOR EXPANDER (SHOW INGREDIENTS) --- */
+
+/* 1. Target the clickable header (summary) */
+div[data-testid="stExpander"] details > summary {
+    background-color: #FFF0F5 !important; /* Normal state: Light Pink */
+    color: #29000e !important;
+    border-radius: 5px;
+}
+
+/* 2. Target the Hover state */
+div[data-testid="stExpander"] details > summary:hover {
+    background-color: #FFC0CB !important; /* Hover state: Darker Pink */
+    color: #29000e !important;
+}
+
+/* 3. Target the Active/Open state (This fixes your issue) */
+div[data-testid="stExpander"] details[open] > summary {
+    background-color: #FF69B4 !important; /* Active state: Hot Pink */
+    color: #29000e !important;
+}
+
+/* 4. Target the arrow icon inside the header */
+div[data-testid="stExpander"] details > summary svg {
+    fill: #29000e !important;
+    color: #29000e !important;
+}
+
+/* 5. Target the content inside the expander */
+div[data-testid="stExpander"] details > div {
+    background-color: #FFFFFF !important;
+    color: #29000e !important;
+}
