@@ -201,7 +201,7 @@ if st.button("🚀 Calculate Recommendations", type="primary"):
 
     data['TOPSIS_Score'] = data['D_minus'] / (data['D_plus'] + data['D_minus'])
 
-    # Results
+# Results
     st.markdown(f"### 🏆 Top 10 Recommendations for {skin_type_code}")
     top_products = data.sort_values(by='TOPSIS_Score', ascending=False).head(10)
 
@@ -223,9 +223,51 @@ if st.button("🚀 Calculate Recommendations", type="primary"):
         </div>
         """, unsafe_allow_html=True)
         
-        # native streamlit expander for ingredsients
+        # Show Ingredients 
         with st.expander("Show Ingredients"):
             st.write(row['ingredients'])
+        
+        # Show Calculation 
+        with st.expander("🧮 Show Calculation Details"):
+            st.markdown("##### 1. Detail Matriks Keputusan")
+            
+            # Membuat DataFrame untuk visualisasi perbandingan
+            calc_data = pd.DataFrame({
+                "Kriteria": ["C1 (Price)", "C2 (Suitability)", "C3 (Effectiveness)", "C4 (Rating)", "C5 (Safety)"],
+                "Bobot (W)": [w_c1, w_c2, w_c3, w_c4, w_c5],
+                "Nilai Asli (X)": [row['price'], row['C2_Suitability'], row['C3_Effectiveness'], row['rank'], row['C5_Safety']],
+                "Ternormalisasi (R)": [row['n_C1'], row['n_C2'], row['n_C3'], row['n_C4'], row['n_C5']],
+                "Terbobot (Y)": [row['w_C1'], row['w_C2'], row['w_C3'], row['w_C4'], row['w_C5']],
+                "Solusi Ideal Positif (A+)": [ideal_best['C1'], ideal_best['C2'], ideal_best['C3'], ideal_best['C4'], ideal_best['C5']],
+                "Solusi Ideal Negatif (A-)": [ideal_worst['C1'], ideal_worst['C2'], ideal_worst['C3'], ideal_worst['C4'], ideal_worst['C5']]
+            })
+            
+            # tabel perhitungan
+            st.dataframe(
+                calc_data.style.format({
+                    "Ternormalisasi (R)": "{:.4f}",
+                    "Terbobot (Y)": "{:.4f}",
+                    "Solusi Ideal Positif (A+)": "{:.4f}",
+                    "Solusi Ideal Negatif (A-)": "{:.4f}"
+                }), 
+                hide_index=True,
+                use_container_width=True
+            )
+
+            st.markdown("##### 2. Perhitungan Jarak (Euclidean Distance)")
+            col_calc1, col_calc2 = st.columns(2)
+            
+            with col_calc1:
+                st.info(f"**Jarak ke Solusi Ideal Positif (D+):**\n\n {row['D_plus']:.6f}")
+            with col_calc2:
+                st.warning(f"**Jarak ke Solusi Ideal Negatif (D-):**\n\n {row['D_minus']:.6f}")
+
+            st.markdown("##### 3. Skor Akhir (Preference Value)")
+            
+            # LaTeX for TOPSIS Score formula
+            st.latex(r"V_i = \frac{D_i^-}{D_i^- + D_i^+}")
+            st.write(f"V = {row['D_minus']:.4f} / ({row['D_minus']:.4f} + {row['D_plus']:.4f})")
+            st.success(f"**TOPSIS Score = {row['TOPSIS_Score']:.6f}**")
 
 st.markdown("---")
 with st.expander("📂 View Full Dataset (All Products)"):
