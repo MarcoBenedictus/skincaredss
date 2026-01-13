@@ -263,7 +263,7 @@ if st.button("🚀 Calculate Recommendations", type="primary"):
                 st.warning(f"**Jarak ke Solusi Ideal Negatif (D-):**\n\n {row['D_minus']:.6f}")
 
             st.markdown("##### 3. Skor Akhir (Preference Value)")
-            
+
             # LaTeX for TOPSIS Score formula
             st.latex(r"V_i = \frac{D_i^-}{D_i^- + D_i^+}")
             st.write(f"V = {row['D_minus']:.4f} / ({row['D_minus']:.4f} + {row['D_plus']:.4f})")
@@ -274,3 +274,6 @@ with st.expander("📂 View Full Dataset (All Products)"):
     st.write("This table shows the raw data used for calculations.")
     st.markdown("credits where credits' due : https://www.kaggle.com/datasets/dominoweir/skincare-product-ingredients")
     st.dataframe(df)
+
+    # Find more @ https://github.com/MarcoBenedictus/skincaredss
+    # by https://github.com/MarcoBenedictus
